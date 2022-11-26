@@ -11,11 +11,11 @@ def getSingleStateRowString(list:list, rowIndex:int):
     for i in range(0, size + 1):
         if i ==0:
             rowStr += " " if (rowIndex + 1) < 10 else ""
-            rowStr+= str(rowIndex + 1) + "\u01c1"
+            rowStr+= str(rowIndex + 1) + colored("\u01c1","yellow")
         elif i == size:
-            rowStr += "   \u01c1"
+            rowStr += colored("   \u01c1","yellow")
         else:
-            rowStr += " " + list[rowIndex][i] + " |"
+            rowStr += " " + colored(list[rowIndex][i], "green" if list[rowIndex][i] == "X" else "magenta") + " |"
     return rowStr
 
 def getDashRowSeparatorString(rowSize):
@@ -27,7 +27,7 @@ def getDashRowSeparatorString(rowSize):
 def getHorizontalEqualsRowSeparatorString(rowSize):
     str = ""
     for i in range(0, rowSize):
-        str += "   === " if i == 0 else "=== "
+        str += colored("   === ", "yellow") if i == 0 else colored("=== ", "yellow")
     return str
 
 def getColumnLettersString(rowSize):
