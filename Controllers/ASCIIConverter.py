@@ -9,4 +9,4 @@ def getASCIIFromNumberStartingAt0(num):
 
 def getNumberFromASCII(asciiChar):
     num = ord(asciiChar) - 65
-    return num if num > 0 else -1
+    return num if num >= 0 else -1
