@@ -1,7 +1,7 @@
-from Controllers.GameManager import isGameOver
-from Controllers.TurnController import playTurn
+from Controllers.GameManager import getAllPossibleMoves, getAllPossibleNextStates, isGameOver
+from Controllers.TurnController import playTurnWithInputs
 from ImportedScripts.CMDTextColorizer.ColorizeText import colored
-from Interface.StatePrinter import printCurrentState, clearConsole
+from Interface.StatePrinter import printAllPossibleMoves, printAllPossibleNextStates, printCurrentState, clearConsole
 from Controllers.GameState import GameState
 from Interface.GameInitializer import intializeGame
 
@@ -15,7 +15,15 @@ isGameFinished = False
 printCurrentState(state)
 
 while not isGameFinished:
-    playTurn(state)
+    # Otkomentarisati za prikaz liste koji su naredni moguci potezi
+    #print(colored("Possible valid moves:","grey"))
+    #printAllPossibleMoves(getAllPossibleMoves(state))
+
+    # Otkomentarisati za graficki prikaz svih stanja koja su dobijena od svih narednih mogucih poteza
+    #print(colored("Possible next states:","grey"))
+    #printAllPossibleNextStates(getAllPossibleNextStates(state))
+
+    state = playTurnWithInputs(state)
     isGameFinished = isGameOver(state)[0]
     printCurrentState(state)
 
@@ -38,5 +46,3 @@ print(colored(f"GAME OVER! The winner is {isGameOver(state)[1]}", "green" ,attrs
 #state.colDim = len(playingFields[0])
 #state.currentTurn = "X"
 #printCurrentState(state)
-
-
