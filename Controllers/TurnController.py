@@ -2,6 +2,7 @@ from Controllers.ASCIIConverter import getNumberFromASCII
 from Controllers.GameState import GameState
 from ImportedScripts.CMDTextColorizer.ColorizeText import colored
 from Interface.StatePrinter import printCurrentState
+import copy
 
 # Position: tuple with first element being the row and second is column
 def isHorizontalMoveValid(stateMatrix:list, colDim:int, position:tuple):
@@ -51,41 +52,66 @@ def getValidCharToIntInput(min:int, max:int, inputContext:str):
             print(colored("Invalid input", 'red', attrs=['bold']))
     return inp
 
-def playTurn(state:GameState):
+# Ova funkcija pokriva menjanje trenutnog stanja igre 
+# I funkciju koja na osnovu zadatog poteza i zadatog stanja formira novo stanje igre
+def playTurnWithInputs(state:GameState):
     rowInput = -1
     colInput = chr(0)
 
     print(colored(f'\n{state.currentTurn} Plays:', 'magenta', attrs=['bold']))
 
-    if state.currentTurn == "X":
+    newState = GameState()
+    newState = copy.deepcopy(state)
+
+    if newState.currentTurn == "X":
         while(True):
             # Send rowDim instead of rowDim-1 because row at the table that user sees starts from 1
-            rowInput = getValidIntInput(0, state.rowDim, "ROW (1,2,3)")
-            colInput = getValidCharToIntInput(0, state.colDim, "COLUMN (A,B,C)")
+            rowInput = getValidIntInput(0, newState.rowDim, "ROW (1,2,3)")
+            colInput = getValidCharToIntInput(0, newState.colDim, "COLUMN (A,B,C)")
 
-            if not isVerticalMoveValid(state.stateMatrix, state.rowDim, (rowInput, colInput)):
+            if not isVerticalMoveValid(newState.stateMatrix, newState.rowDim, (rowInput, colInput)):
                 print(colored("You can't place a domino here, try again!", 'red', attrs=['bold']))
             else:
                 break
 
-        state.stateMatrix[rowInput][colInput] = "X"
-        state.stateMatrix[rowInput+1][colInput] = "X"
+        newState.stateMatrix[rowInput][colInput] = "X"
+        newState.stateMatrix[rowInput+1][colInput] = "X"
 
     elif state.currentTurn == "O":
         while(True):
             # Send rowDim instead of rowDim-1 because row at the table that user sees starts from 1
-            rowInput = getValidIntInput(0, state.rowDim, "ROW (1,2,3)")
-            colInput = getValidCharToIntInput(0, state.colDim, "COLUMN (A,B,C)")
+            rowInput = getValidIntInput(0, newState.rowDim, "ROW (1,2,3)")
+            colInput = getValidCharToIntInput(0, newState.colDim, "COLUMN (A,B,C)")
 
-            if not isHorizontalMoveValid(state.stateMatrix, state.colDim, (rowInput, colInput)):
+            if not isHorizontalMoveValid(newState.stateMatrix, newState.colDim, (rowInput, colInput)):
                 print(colored("You can't place a domino here, try again!", 'red', attrs=['bold']))
             else:
                 break
 
-        state.stateMatrix[rowInput][colInput] = "O"
-        state.stateMatrix[rowInput][colInput+1] = "O"
+        newState.stateMatrix[rowInput][colInput] = "O"
+        newState.stateMatrix[rowInput][colInput+1] = "O"
 
-    state.currentTurn = "O" if state.currentTurn == "X" else "X" 
+    newState.currentTurn = "O" if newState.currentTurn == "X" else "X"
+
+    return newState
+
+# Only valid turns are passed as row and col arguments
+def playValidTurnInstantly(state:GameState, row, col):
+    newState = GameState()
+    newState = copy.deepcopy(state)
+
+    if newState.currentTurn == "X":
+        newState.stateMatrix[row][col] = "X"
+        newState.stateMatrix[row + 1][col] = "X"
+
+    elif state.currentTurn == "O":
+        newState.stateMatrix[row][col] = "O"
+        newState.stateMatrix[row][col + 1] = "O"
+
+    newState.currentTurn = "O" if newState.currentTurn == "X" else "X"
+
+    return newState
+
     
         
 
