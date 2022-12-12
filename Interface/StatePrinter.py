@@ -45,3 +45,20 @@ def printCurrentState(state:GameState) -> None:
         print(getSingleStateRowString(state.stateMatrix, i))
 
     print(getHorizontalEqualsRowSeparatorString(state.colDim))
+
+# Prints a list of all possible moves from a player depending on current state
+def printAllPossibleMoves(listOfPossibleMoves:list):
+    moves = "["
+    for i in range(len(listOfPossibleMoves)):
+        moves += f'[{listOfPossibleMoves[i][0] + 1}, {getASCIIFromNumberStartingAt0(listOfPossibleMoves[i][1])}]'
+        if i == len(listOfPossibleMoves) - 1:
+            moves += ']'
+        else:
+            moves += ", "
+        
+    print(moves)
+
+# Prints every possible next state calculated from current state
+def printAllPossibleNextStates(possibleNextStates:list):
+    for i in range(0, len(possibleNextStates)):
+        printCurrentState(possibleNextStates[i])
