@@ -60,6 +60,8 @@ def getAllPossibleNextStates(currentState:GameState):
     possibleNextStates = []
 
     for i in range(0, len(possibleMoves)):
-        possibleNextStates.append(playValidTurnInstantly(currentState, possibleMoves[i][0], possibleMoves[i][1]))
+        nextState = playValidTurnInstantly(currentState, possibleMoves[i][0], possibleMoves[i][1])
+        nextState.minMaxGeneratedTurns.append([possibleMoves[i][0], possibleMoves[i][1]])
+        possibleNextStates.append(nextState)
     
     return possibleNextStates
