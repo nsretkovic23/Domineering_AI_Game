@@ -76,6 +76,7 @@ def playTurnWithInputs(state:GameState):
 
         newState.stateMatrix[rowInput][colInput] = "X"
         newState.stateMatrix[rowInput+1][colInput] = "X"
+        newState.lastPlayedX = [rowInput, colInput]
 
     elif state.currentTurn == "O":
         while(True):
@@ -90,8 +91,10 @@ def playTurnWithInputs(state:GameState):
 
         newState.stateMatrix[rowInput][colInput] = "O"
         newState.stateMatrix[rowInput][colInput+1] = "O"
+        newState.lastPlayedO = [rowInput, colInput]
 
     newState.currentTurn = "O" if newState.currentTurn == "X" else "X"
+    newState.lastPlayedMove = [rowInput, colInput]
 
     return newState
 
@@ -103,14 +106,39 @@ def playValidTurnInstantly(state:GameState, row, col):
     if newState.currentTurn == "X":
         newState.stateMatrix[row][col] = "X"
         newState.stateMatrix[row + 1][col] = "X"
+        newState.lastPlayedX = [row, col]
 
     elif state.currentTurn == "O":
         newState.stateMatrix[row][col] = "O"
         newState.stateMatrix[row][col + 1] = "O"
+        newState.lastPlayedO = [row, col]
 
     newState.currentTurn = "O" if newState.currentTurn == "X" else "X"
+    newState.lastPlayedMove = [row, col]
 
     return newState
+
+def undoLastTurn(state:GameState):
+    if len(state.lastPlayedMove) == 0:
+        return None
+
+    earlierState = GameState()
+    earlierState = copy.deepcopy(state)
+
+    row = earlierState.lastPlayedMove[0]
+    col = earlierState.lastPlayedMove[1]
+    #" "
+    if earlierState.stateMatrix[row][col] == "X":
+        earlierState.stateMatrix[row][col] = " "
+        earlierState.stateMatrix[row+1][col] = " "
+    else:
+        earlierState.stateMatrix[row][col] = " "
+        earlierState.stateMatrix[row][col+1] = " "
+
+    state.currentTurn == "X" if state.currentTurn == "O" else "O"
+    
+    return earlierState
+
 
     
         
