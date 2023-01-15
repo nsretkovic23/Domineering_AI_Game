@@ -8,9 +8,9 @@ def printWelcomeText():
 
 def getWhoPlaysFirst():
     whoPlaysFirst = ""
-    # TODO: Phase 3: Implement logic for switching between playing Player Vs Player and Player Vs CPU
-    #while(whoPlaysFirst != "me" and whoPlaysFirst != "cpu"):
-        #whoPlaysFirst = input(colored("Who do you want to play first? Type me/cpu: ", 'cyan')).lower()
+    while(whoPlaysFirst != "me" and whoPlaysFirst != "cpu"):
+        whoPlaysFirst = input(colored("Who do you want to play first? Type me/cpu: ", 'cyan')).lower()
+    return whoPlaysFirst
 
 def getTableDimensions(maxRowDim:int, maxColDim:int):
     print(colored("\nLet's create the table!", 'yellow'))
@@ -18,14 +18,14 @@ def getTableDimensions(maxRowDim:int, maxColDim:int):
     
     rows = -1
     cols = -1
-    
-    while(rows < 5 or rows > maxRowDim):
+    #promenjeno na <1 zbog testa, bilo <5
+    while(rows < 1 or rows > maxRowDim):
         try:
             rows = int(input(colored("Enter the number of rows: ", 'cyan')))
         except:
             print(colored("Invalid input", 'red', attrs=['bold']))
 
-    while(cols < 5 or cols > maxColDim):
+    while(cols < 1 or cols > maxColDim):
         try:
             cols = int(input(colored("Enter the number of columns: ", 'cyan')))
         except:
